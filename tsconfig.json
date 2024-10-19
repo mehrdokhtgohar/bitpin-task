@@ -5,13 +5,17 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "jsx": "react",
+    "composite": true,
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@routes/*": ["src/routes/*"],
       "@assets/*": ["src/assets/*"],
-      "@utils/*": ["src/utils/*"]
-    }
+      "@utils/*": ["src/utils/*"],
+      "@api/*": ["src/api/*"]
+    },
+    "types": ["node"]
   }
 }
