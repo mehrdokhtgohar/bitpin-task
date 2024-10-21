@@ -11,7 +11,7 @@ export default interface MarketTypes {
   otcMaxBuyAmount: string;
   otcMaxSellAmount: string;
   orderBookInfo: OrderBookTypes;
-  priceInfo: OrderBookTypes;
+  price_info: OrderBookTypes;
   internalPriceInfo: OrderBookTypes;
   price: string;
   title: string;
