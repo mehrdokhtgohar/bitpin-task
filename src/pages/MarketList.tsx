@@ -1,31 +1,32 @@
-import { useCurrencies } from "@api/hooks/currencies";
+import { useMarkets } from "@api/hooks/markets";
 import Decimal from "decimal.js";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 10;
 
-const CurrencyList = () => {
+const MarketList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("USDT"); // Default tab is USDT
+  const [activeTab, setActiveTab] = useState("USDT");
+  const navigate = useNavigate();
 
-  const { data, isLoading, isError } = useCurrencies();
+  const { data, isLoading, isError } = useMarkets();
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading currencies</div>;
-
-  // Filter data based on activeTab (USDT or IRT)
-  const filteredCurrencies = data?.filter(
-    (currency) => currency.currency2.code === activeTab
+  const filteredMarkets = data?.filter(
+    (market) => market.currency2.code === activeTab
   );
 
-  const totalPages = Math.ceil(filteredCurrencies?.length / ITEMS_PER_PAGE);
+  const totalPages =
+    filteredMarkets && Math.ceil(filteredMarkets?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedCurrencies = filteredCurrencies?.slice(
+  const paginatedMarkets = filteredMarkets?.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE
   );
 
   const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
+    if (totalPages && (page < 1 || page > totalPages)) return;
     setCurrentPage(page);
   };
 
@@ -44,11 +45,13 @@ const CurrencyList = () => {
       return "Error";
     }
   };
+  const handleMarketClick = (marketId: number) => {
+    navigate(`/market/${marketId}`);
+  };
   return (
     <div>
       <h1>Currency List</h1>
 
-      {/* Tab Navigation */}
       <div>
         <button
           onClick={() => handleTabChange("USDT")}
@@ -64,25 +67,27 @@ const CurrencyList = () => {
         </button>
       </div>
 
-      {/* Currency List */}
       <ul>
-        {paginatedCurrencies?.map((currency, index) => (
-          <li key={index} style={{ display: "flex", alignItems: "center" }}>
+        {paginatedMarkets?.map((market, index) => (
+          <li
+            key={index}
+            style={{ display: "flex", alignItems: "center" }}
+            onClick={() => handleMarketClick(market.id)}
+          >
             <img
-              src={currency.currency1.image}
-              alt={`${currency.currency2.code} icon`}
+              src={market.currency1.image}
+              alt={`${market.currency2.code} icon`}
               style={{ width: "30px", height: "30px", marginRight: "10px" }}
             />
             <div>
-              <strong>{`${currency.currency1.code}/${currency.currency2.code}`}</strong>
-              <p>{currency.currency1.title_fa}</p>{" "}
-              <p>{displayPrice(currency.price_info?.price)} </p>
+              <strong>{`${market.currency1.code}/${market.currency2.code}`}</strong>
+              <p>{market.currency1.title_fa}</p>{" "}
+              <p>{displayPrice(market.price_info?.price)} </p>
             </div>
           </li>
         ))}
       </ul>
 
-      {/* Pagination Controls */}
       <div>
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -102,4 +107,4 @@ const CurrencyList = () => {
   );
 };
 
-export default CurrencyList;
+export default MarketList;

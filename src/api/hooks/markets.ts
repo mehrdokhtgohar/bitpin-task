@@ -1,14 +1,14 @@
 import apiClient from "@api/api";
-import MarketTypes from "@api/types/currencies.types";
+import MarketTypes from "@api/types/markets.types";
 import { URLS } from "@api/urls";
 import { useQuery } from "@tanstack/react-query";
 
-export const useCurrencies = () => {
+export const useMarkets = () => {
   return useQuery<MarketTypes[]>({
-    queryKey: [URLS.CURRENCIES_LIST],
+    queryKey: [URLS.MARKET_LIST],
     queryFn: async () => {
       const response = await apiClient.get<{ results: MarketTypes[] }>(
-        URLS.CURRENCIES_LIST
+        URLS.MARKET_LIST
       );
       return response.data.results;
     },
