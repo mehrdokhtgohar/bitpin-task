@@ -3,7 +3,7 @@ import MarketTypes from "@api/types/markets.types";
 import { URLS } from "@api/urls";
 import { useQuery } from "@tanstack/react-query";
 
-export const useMarkets = () => {
+export const useMarkets = (enabled = true) => {
   return useQuery<MarketTypes[]>({
     queryKey: [URLS.MARKET_LIST],
     queryFn: async () => {
@@ -12,5 +12,8 @@ export const useMarkets = () => {
       );
       return response.data.results;
     },
+    enabled,
+
+    refetchOnWindowFocus: false,
   });
 };

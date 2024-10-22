@@ -12,7 +12,8 @@
       "@routes/*": ["src/routes/*"],
       "@assets/*": ["src/assets/*"],
       "@utils/*": ["src/utils/*"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@theme/*": ["src/theme/*"]
     },
 
     /* Bundler mode */

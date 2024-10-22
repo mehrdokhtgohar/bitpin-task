@@ -1,5 +1,7 @@
 import { useMarketDetail } from "@api/hooks/marketDetail";
-import { TabTypes } from "@api/types/markets.types";
+import { TabTypes } from "@api/types/marketDetail.types";
+import PriceCalculator from "@components/PriceCalculator";
+import { calculateSumsAndWeightedAverage } from "@utils/calculations";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -7,9 +9,10 @@ const ITEMS_PER_PAGE = 10;
 
 const MarketDetail = () => {
   const { marketId } = useParams<{ marketId: string }>() || {};
-  const [activeTab, setActiveTab] = useState(TabTypes.TRADE);
+  const [activeTab, setActiveTab] = useState(TabTypes.SELL);
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, isError, error } = useMarketDetail(
+    true,
     marketId || "",
     activeTab
   );
@@ -21,6 +24,9 @@ const MarketDetail = () => {
     activeTab === TabTypes.BUY || activeTab === TabTypes.SELL
       ? data?.orders?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
       : data?.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const { totalRemain, totalValue, weightedAveragePrice } =
+    calculateSumsAndWeightedAverage(paginatedData || []);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -35,6 +41,13 @@ const MarketDetail = () => {
     if (totalPages && (page < 1 || page > totalPages)) return;
     setCurrentPage(page);
   };
+
+  // Extract necessary data for the PriceCalculator
+  const calculatorData = paginatedData?.map((item) => ({
+    price: item.price,
+    remain: item.remain,
+    value: item.value,
+  }));
 
   return (
     <div>
@@ -77,7 +90,17 @@ const MarketDetail = () => {
                 </li>
               ))}
             </ul>
-
+            {activeTab != TabTypes.TRADE && (
+              <>
+                <div>
+                  <h3>Summary</h3>
+                  <p>Total Remain: {totalRemain}</p>
+                  <p>Total Value: {totalValue}</p>
+                  <p>Weighted Average Price: {weightedAveragePrice}</p>
+                </div>
+                <PriceCalculator calculatorData={calculatorData || []} />
+              </>
+            )}
             <div>
               <button
                 onClick={() => handlePageChange(currentPage - 1)}

@@ -3,7 +3,11 @@ import { TabTypes } from "@api/types/marketDetail.types";
 import { URLS } from "@api/urls";
 import { useQuery } from "@tanstack/react-query";
 
-export const useMarketDetail = (marketId: string, type: string) => {
+export const useMarketDetail = (
+  enabled = true,
+  marketId: string,
+  type: string
+) => {
   return useQuery({
     queryKey: [
       type === TabTypes.BUY || type === TabTypes.SELL
@@ -32,6 +36,7 @@ export const useMarketDetail = (marketId: string, type: string) => {
       return response.data;
     },
     // refetchInterval: 3000,
-    enabled: !!marketId,
+    enabled,
+    refetchOnWindowFocus: false,
   });
 };

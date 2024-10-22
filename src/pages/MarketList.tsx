@@ -1,4 +1,5 @@
 import { useMarkets } from "@api/hooks/markets";
+import { useTheme } from "@theme/ThemeContext";
 import Decimal from "decimal.js";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +10,12 @@ const MarketList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("USDT");
   const navigate = useNavigate();
-
-  const { data, isLoading, isError } = useMarkets();
+  const { theme, toggleTheme } = useTheme();
+  const themeStyles = {
+    backgroundColor: theme === "dark" ? "#333" : "#fff",
+    color: theme === "dark" ? "#fff" : "#000",
+  };
+  const { data, isLoading, isError } = useMarkets(true);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading currencies</div>;
   const filteredMarkets = data?.filter(
@@ -48,10 +53,13 @@ const MarketList = () => {
   const handleMarketClick = (marketId: number) => {
     navigate(`/market/${marketId}`);
   };
-  return (
-    <div>
-      <h1>Currency List</h1>
 
+  return (
+    <div style={themeStyles}>
+      <button onClick={toggleTheme}>
+        Switch to {theme === "light" ? "Dark" : "Light"} Mode
+      </button>
+      <h1>Currency List</h1>
       <div>
         <button
           onClick={() => handleTabChange("USDT")}
@@ -66,7 +74,6 @@ const MarketList = () => {
           IRT
         </button>
       </div>
-
       <ul>
         {paginatedMarkets?.map((market, index) => (
           <li
@@ -87,7 +94,6 @@ const MarketList = () => {
           </li>
         ))}
       </ul>
-
       <div>
         <button
           onClick={() => handlePageChange(currentPage - 1)}
