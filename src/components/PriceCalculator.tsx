@@ -1,9 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Decimal from "decimal.js";
-import { calculateWeightedPriceAndTotal } from "@utils/calculations";
+import {
+  calculateSumsAndWeightedAverage,
+  calculateWeightedPriceAndTotal,
+} from "@utils/calculations";
+
+interface CalculatorData {
+  price: string;
+  remain: string;
+  value: string;
+  amount: string;
+}
 
 interface PriceCalculatorProps {
-  calculatorData: { price: number; remain: number; value: number }[];
+  calculatorData: CalculatorData[];
 }
 
 const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
@@ -12,25 +22,9 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
   const [weightedPrice, setWeightedPrice] = useState<Decimal>(new Decimal(0));
   const [amountToPay, setAmountToPay] = useState<Decimal>(new Decimal(0));
 
-  const calculateTotals = useCallback(() => {
-    let totalWeightedPrice = new Decimal(0);
-    let totalRemain = new Decimal(0);
-    let totalValue = new Decimal(0);
-
-    calculatorData.forEach((item) => {
-      const price = new Decimal(item.price);
-      const remain = new Decimal(item.remain);
-      const value = new Decimal(item.value);
-
-      totalWeightedPrice = totalWeightedPrice.plus(price.times(remain));
-      totalRemain = totalRemain.plus(remain);
-      totalValue = totalValue.plus(value);
-    });
-
-    setTotalRemain(totalRemain);
-
-    const weightedPrice = totalWeightedPrice.div(totalRemain);
-    setWeightedPrice(weightedPrice);
+  useEffect(() => {
+    const { totalRemain } = calculateSumsAndWeightedAverage(calculatorData);
+    setTotalRemain(new Decimal(totalRemain));
   }, [calculatorData]);
 
   const handlePercentageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,10 +42,6 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
       setAmountToPay(totalPayment);
     }
   };
-
-  useEffect(() => {
-    calculateTotals();
-  }, [calculateTotals, calculatorData]);
 
   return (
     <div>

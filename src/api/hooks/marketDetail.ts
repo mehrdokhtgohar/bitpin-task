@@ -1,5 +1,5 @@
 import apiClient from "@api/api";
-import { TabTypes } from "@api/types/marketDetail.types";
+import { MarketItemTypes, TabTypes } from "@api/types/marketDetail.types";
 import { URLS } from "@api/urls";
 import { useQuery } from "@tanstack/react-query";
 
@@ -32,7 +32,7 @@ export const useMarketDetail = (
         throw new Error("URL is undefined");
       }
 
-      const response = await apiClient.get(url);
+      const response = await apiClient.get<MarketItemTypes[]>(url);
       return response.data;
     },
     // refetchInterval: 3000,

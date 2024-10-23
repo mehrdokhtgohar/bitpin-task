@@ -1,11 +1,11 @@
+import { MarketItemTypes } from "@api/types/marketDetail.types";
 import Decimal from "decimal.js";
 
-export const calculateSumsAndWeightedAverage = (data: any[]) => {
+export const calculateSumsAndWeightedAverage = (data: MarketItemTypes[]) => {
   let totalRemain = new Decimal(0);
   let totalValue = new Decimal(0);
   let totalWeightedPrice = new Decimal(0);
   let totalWeight = new Decimal(0);
-
   data.forEach((item) => {
     const remain = new Decimal(item.remain || 0);
     const value = new Decimal(item.value || 0);
@@ -27,7 +27,10 @@ export const calculateSumsAndWeightedAverage = (data: any[]) => {
     weightedAveragePrice: weightedAveragePrice.toFixed(2),
   };
 };
-export const calculateWeightedPriceAndTotal = (data, percentageOfRemain) => {
+export const calculateWeightedPriceAndTotal = (
+  data: MarketItemTypes[],
+  percentageOfRemain: Decimal
+) => {
   let totalWeightedPrice = new Decimal(0);
   let totalPayment = new Decimal(0);
   let remainingToConsider = percentageOfRemain;
