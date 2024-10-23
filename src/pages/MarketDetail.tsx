@@ -4,6 +4,7 @@ import PriceCalculator from "@components/PriceCalculator";
 import { calculateSumsAndWeightedAverage } from "@utils/calculations";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 
 const ITEMS_LIMIT = 10;
 
@@ -27,6 +28,22 @@ const MarketDetail = () => {
   const handleTabChange = (tab: TabTypes) => {
     setActiveTab(tab);
   };
+  console.log(activeTab, "activeTab");
+  const handleSwipe = (direction: string) => {
+    if (direction === "Left") {
+      if (activeTab === TabTypes.TRADE) {
+        handleTabChange(TabTypes.SELL);
+      } else if (activeTab === TabTypes.SELL) {
+        handleTabChange(TabTypes.BUY);
+      }
+    } else if (direction === "Right") {
+      if (activeTab === TabTypes.BUY) {
+        handleTabChange(TabTypes.SELL);
+      } else if (activeTab === TabTypes.SELL) {
+        handleTabChange(TabTypes.TRADE);
+      }
+    }
+  };
 
   const calculatorData = displayedData?.map((item: MarketItemTypes) => ({
     price: item.price,
@@ -34,8 +51,15 @@ const MarketDetail = () => {
     value: item.value,
   }));
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => handleSwipe("Left"),
+    onSwipedRight: () => handleSwipe("Right"),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
   return (
-    <div>
+    <div {...swipeHandlers}>
       <h1>Market Detail for {marketId}</h1>
 
       <div>

@@ -72,3 +72,8 @@ export interface PaginatedCurrencies {
   results: MarketTypes[];
   nextPage?: number;
 }
+
+export enum TabTypes {
+  "IRT" = "IRT",
+  "USDT" = "USDT",
+}

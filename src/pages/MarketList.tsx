@@ -1,14 +1,16 @@
 import { useMarkets } from "@api/hooks/markets";
+import { TabTypes } from "@api/types/markets.types";
 import { useTheme } from "@theme/ThemeContext";
 import Decimal from "decimal.js";
 import React, { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 
 const ITEMS_PER_PAGE = 10;
 
 const MarketList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("USDT");
+  const [activeTab, setActiveTab] = useState(TabTypes.USDT);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -43,7 +45,7 @@ const MarketList = () => {
     [currentPage, totalPages]
   );
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (tab: TabTypes) => {
     setActiveTab(tab);
     setCurrentPage(1);
   };
@@ -63,7 +65,16 @@ const MarketList = () => {
       return "Error";
     }
   };
-
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (activeTab === TabTypes.IRT) handleTabChange(TabTypes.USDT);
+    },
+    onSwipedRight: () => {
+      if (activeTab === TabTypes.USDT) handleTabChange(TabTypes.IRT);
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading currencies</div>;
 
@@ -73,23 +84,22 @@ const MarketList = () => {
   };
 
   return (
-    <div style={themeStyles}>
+    <div {...handlers} style={themeStyles}>
       <button onClick={toggleTheme}>
         Switch to {theme === "light" ? "Dark" : "Light"} Mode
       </button>
       <h1>Currency List</h1>
 
-      {/* Currency tab buttons */}
       <div>
         <button
-          onClick={() => handleTabChange("USDT")}
-          disabled={activeTab === "USDT"}
+          onClick={() => handleTabChange(TabTypes.USDT)}
+          disabled={activeTab === TabTypes.USDT}
         >
           USDT
         </button>
         <button
-          onClick={() => handleTabChange("IRT")}
-          disabled={activeTab === "IRT"}
+          onClick={() => handleTabChange(TabTypes.IRT)}
+          disabled={activeTab === TabTypes.IRT}
         >
           IRT
         </button>
