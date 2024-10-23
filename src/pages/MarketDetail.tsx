@@ -2,7 +2,7 @@ import { useMarketDetail } from "@api/hooks/marketDetail";
 import { MarketItemTypes, TabTypes } from "@api/types/marketDetail.types";
 import PriceCalculator from "@components/PriceCalculator";
 import { calculateSumsAndWeightedAverage } from "@utils/calculations";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 
@@ -17,39 +17,45 @@ const MarketDetail = () => {
     activeTab
   );
 
-  const displayedData =
-    activeTab === TabTypes.BUY || activeTab === TabTypes.SELL
+  const displayedData = useMemo(() => {
+    return activeTab === TabTypes.BUY || activeTab === TabTypes.SELL
       ? data?.orders?.slice(0, ITEMS_LIMIT)
       : data?.slice(0, ITEMS_LIMIT);
+  }, [data, activeTab]);
 
-  const { totalRemain, totalValue, weightedAveragePrice } =
-    calculateSumsAndWeightedAverage(displayedData || []);
+  const { totalRemain, totalValue, weightedAveragePrice } = useMemo(() => {
+    return calculateSumsAndWeightedAverage(displayedData || []);
+  }, [displayedData]);
 
-  const handleTabChange = (tab: TabTypes) => {
+  const handleTabChange = useCallback((tab: TabTypes) => {
     setActiveTab(tab);
-  };
-  console.log(activeTab, "activeTab");
-  const handleSwipe = (direction: string) => {
-    if (direction === "Left") {
-      if (activeTab === TabTypes.TRADE) {
-        handleTabChange(TabTypes.SELL);
-      } else if (activeTab === TabTypes.SELL) {
-        handleTabChange(TabTypes.BUY);
-      }
-    } else if (direction === "Right") {
-      if (activeTab === TabTypes.BUY) {
-        handleTabChange(TabTypes.SELL);
-      } else if (activeTab === TabTypes.SELL) {
-        handleTabChange(TabTypes.TRADE);
-      }
-    }
-  };
+  }, []);
 
-  const calculatorData = displayedData?.map((item: MarketItemTypes) => ({
-    price: item.price,
-    remain: item.remain,
-    value: item.value,
-  }));
+  const handleSwipe = useCallback(
+    (direction: string) => {
+      if (direction === "Left") {
+        if (activeTab === TabTypes.TRADE) {
+          handleTabChange(TabTypes.SELL);
+        } else if (activeTab === TabTypes.SELL) {
+          handleTabChange(TabTypes.BUY);
+        }
+      } else if (direction === "Right") {
+        if (activeTab === TabTypes.BUY) {
+          handleTabChange(TabTypes.SELL);
+        } else if (activeTab === TabTypes.SELL) {
+          handleTabChange(TabTypes.TRADE);
+        }
+      }
+    },
+    [activeTab, handleTabChange]
+  );
+  const calculatorData = useMemo(() => {
+    return displayedData?.map((item: MarketItemTypes) => ({
+      price: item.price,
+      remain: item.remain,
+      value: item.value,
+    }));
+  }, [displayedData]);
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => handleSwipe("Left"),

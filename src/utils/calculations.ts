@@ -1,11 +1,12 @@
 import { MarketItemTypes } from "@api/types/marketDetail.types";
 import Decimal from "decimal.js";
 
-export const calculateSumsAndWeightedAverage = (data: MarketItemTypes[]) => {
+const accumulateTotals = (data: MarketItemTypes[]) => {
   let totalRemain = new Decimal(0);
   let totalValue = new Decimal(0);
   let totalWeightedPrice = new Decimal(0);
   let totalWeight = new Decimal(0);
+
   data.forEach((item) => {
     const remain = new Decimal(item.remain || 0);
     const value = new Decimal(item.value || 0);
@@ -17,6 +18,20 @@ export const calculateSumsAndWeightedAverage = (data: MarketItemTypes[]) => {
     totalWeight = totalWeight.plus(remain);
   });
 
+  return { totalRemain, totalValue, totalWeightedPrice, totalWeight };
+};
+export const calculateSumsAndWeightedAverage = (data: MarketItemTypes[]) => {
+  if (!data || data.length === 0) {
+    return {
+      totalRemain: "0.00",
+      totalValue: "0.00",
+      weightedAveragePrice: "0.00",
+    };
+  }
+
+  const { totalRemain, totalValue, totalWeightedPrice, totalWeight } =
+    accumulateTotals(data);
+
   const weightedAveragePrice = totalWeight.isZero()
     ? new Decimal(0)
     : totalWeightedPrice.div(totalWeight);
@@ -27,6 +42,7 @@ export const calculateSumsAndWeightedAverage = (data: MarketItemTypes[]) => {
     weightedAveragePrice: weightedAveragePrice.toFixed(2),
   };
 };
+
 export const calculateWeightedPriceAndTotal = (
   data: MarketItemTypes[],
   percentageOfRemain: Decimal
@@ -35,22 +51,22 @@ export const calculateWeightedPriceAndTotal = (
   let totalPayment = new Decimal(0);
   let remainingToConsider = percentageOfRemain;
 
-  for (let i = 0; i < data.length; i++) {
-    const price = new Decimal(data[i].price);
-    const remain = new Decimal(data[i].remain);
+  for (const item of data) {
+    const price = new Decimal(item.price);
+    const remain = new Decimal(item.remain);
 
-    if (remainingToConsider.greaterThan(0)) {
-      const portionOfRemain = Decimal.min(remainingToConsider, remain);
-      totalWeightedPrice = totalWeightedPrice.plus(
-        price.times(portionOfRemain)
-      );
-      totalPayment = totalPayment.plus(price.times(portionOfRemain));
-      remainingToConsider = remainingToConsider.minus(portionOfRemain);
-    } else {
-      break;
-    }
+    if (remainingToConsider.lessThanOrEqualTo(0)) break;
+
+    const portionOfRemain = Decimal.min(remainingToConsider, remain);
+    totalWeightedPrice = totalWeightedPrice.plus(price.times(portionOfRemain));
+    totalPayment = totalPayment.plus(price.times(portionOfRemain));
+    remainingToConsider = remainingToConsider.minus(portionOfRemain);
   }
 
   const weightedPrice = totalWeightedPrice.div(percentageOfRemain);
-  return { weightedPrice, totalPayment };
+
+  return {
+    weightedPrice: weightedPrice.toFixed(2),
+    totalPayment: totalPayment.toFixed(2),
+  };
 };

@@ -2,7 +2,7 @@ import { useMarkets } from "@api/hooks/markets";
 import { TabTypes } from "@api/types/markets.types";
 import { useTheme } from "@theme/ThemeContext";
 import Decimal from "decimal.js";
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 
@@ -17,18 +17,17 @@ const MarketList = () => {
 
   const { data, isLoading, isError } = useMarkets(true);
 
-  const filteredMarkets = data?.filter(
-    (market) => market.currency2.code === activeTab
-  );
+  const filteredMarkets = useMemo(() => {
+    return data?.filter((market) => market.currency2.code === activeTab);
+  }, [data, activeTab]);
 
   const totalPages =
     filteredMarkets && Math.ceil(filteredMarkets.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const paginatedMarkets = filteredMarkets?.slice(
-    0,
-    startIndex + ITEMS_PER_PAGE * currentPage
-  );
+  const paginatedMarkets = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredMarkets?.slice(0, startIndex + ITEMS_PER_PAGE * currentPage);
+  }, [filteredMarkets, currentPage]);
 
   const lastItemRef = useCallback(
     (node: HTMLLIElement) => {
