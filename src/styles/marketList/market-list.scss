@@ -1,13 +1,13 @@
 @import "../colors";
 
 .market-list {
-  padding-top: 150px; // Adjust this value based on the height of the fixed header
+  padding-top: 150px;
   background-color: $primary02;
   color: $primary07;
 
   .fixed-header {
     position: fixed;
-    top: 74px; // Fixed at 75px from the top
+    top: 74px;
     left: 0;
     width: 100%;
     background-color: $primary02;
@@ -25,7 +25,7 @@
 
     .tabs {
       display: flex;
-      justify-content: flex-end; // Align tabs to the right
+      justify-content: flex-end;
       border-bottom: 1px solid $primary04;
 
       .MuiTabs-root {

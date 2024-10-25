@@ -1,0 +1,56 @@
+@import "../colors";
+
+.price-calculator {
+  direction: rtl;
+  text-align: right;
+  padding: 20px 10px;
+  font-family: iranYekanL, Arial, sans-serif;
+  background-color: $primary02;
+  color: $primary07;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: $primary07;
+  }
+
+  input {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid $primary04;
+    border-radius: 4px;
+    background-color: $primary03;
+    color: $primary07;
+  }
+
+  .result {
+    background-color: $primary03;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      margin-bottom: 10px;
+      color: $accent;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      .result-title {
+        font-weight: bold;
+        color: $primary06;
+      }
+
+      .result-value {
+        color: $primary07;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.mobile-content {
+  display: none;
+}
+
+.desktop-message {
+  display: block;
+  text-align: center;
+  margin-top: 20%;
+}
+
+@media (max-width: 600px) {
+  .mobile-content {
+    display: block;
+  }
+
+  .desktop-message {
+    display: none;
+  }
+}

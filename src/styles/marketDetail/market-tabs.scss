@@ -1,0 +1,25 @@
+@import "../colors";
+
+.market-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid $primary04;
+
+  .MuiTabs-root {
+    width: auto;
+  }
+
+  .MuiTab-root {
+    font-family: iranYekanL;
+    font-size: 1rem;
+    color: $primary07;
+    &.Mui-selected {
+      color: #4ef09d;
+    }
+  }
+
+  .MuiTabs-indicator {
+    background-color: #4ef09d;
+  }
+}
