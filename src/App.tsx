@@ -1,8 +1,8 @@
 import React from "react";
-import "./App.css";
 import AppRoutes from "@routes/index";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@theme/ThemeContext";
+import "./styles/app.scss";
 
 function App() {
   const queryClient = new QueryClient();

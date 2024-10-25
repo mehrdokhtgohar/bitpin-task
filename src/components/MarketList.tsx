@@ -1,14 +1,14 @@
 import { useMarkets } from "@api/hooks/markets";
 import { TabTypes } from "@api/types/markets.types";
 import { useTheme } from "@theme/ThemeContext";
-import Decimal from "decimal.js";
 import React, { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import Tabs from "./Tabs";
 import ThemeToggle from "./ThemeToggle";
 
-import "../styles/marketList/market-list.scss";
+import "@styles/marketList/market-list.scss";
+import { displayNumber } from "@utils/displayPrice";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -58,22 +58,6 @@ const MarketList = () => {
     navigate(`/market/${marketId}`);
   };
 
-  const displayPrice = (price: string, currency: TabTypes) => {
-    try {
-      if (price) {
-        const decimalPrice = new Decimal(price);
-        const formattedPrice = decimalPrice
-          .toFixed(2)
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        const currencySymbol = currency === TabTypes.USDT ? "تتر" : "تومان";
-        return `${formattedPrice} ${currencySymbol}`;
-      }
-    } catch (error) {
-      console.error("Error parsing price:", error);
-      return "Error";
-    }
-  };
-
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (activeTab === TabTypes.IRT) handleTabChange(TabTypes.USDT);
@@ -85,9 +69,6 @@ const MarketList = () => {
     trackMouse: true,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading currencies</div>;
-
   const themeStyles = {
     backgroundColor: theme === "dark" ? "#1a1a1a" : "#fff",
     color: theme === "dark" ? "#fff" : "#000",
@@ -95,6 +76,9 @@ const MarketList = () => {
 
   return (
     <div {...handlers} style={themeStyles} className="market-list">
+      {isLoading && <p>در حال بارگزاری اطلاعات</p>}
+      {isError && <p>خطایی رخ داده است.</p>}
+
       <div className="fixed-header">
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
@@ -120,7 +104,7 @@ const MarketList = () => {
                 </div>
 
                 <p className="price">
-                  {displayPrice(market.price_info?.price, activeTab)}
+                  {displayNumber(market.price_info?.price, activeTab)}
                 </p>
               </div>
             </li>

@@ -4,6 +4,9 @@ import {
   calculateSumsAndWeightedAverage,
   calculateWeightedPriceAndTotal,
 } from "@utils/calculations";
+import "@styles/marketDetail/price-calculator.scss";
+import { useTheme } from "@theme/ThemeContext";
+import { displayNumber } from "@utils/displayPrice";
 
 interface CalculatorData {
   price: string;
@@ -17,18 +20,27 @@ interface PriceCalculatorProps {
 }
 
 const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
-  const [percentage, setPercentage] = useState<number>(0);
+  const [percentage, setPercentage] = useState<number>();
   const [totalRemain, setTotalRemain] = useState<Decimal>(new Decimal(0));
   const [weightedPrice, setWeightedPrice] = useState<Decimal>(new Decimal(0));
   const [amountToPay, setAmountToPay] = useState<Decimal>(new Decimal(0));
-
+  const { theme } = useTheme();
+  const themeStyles = {
+    backgroundColor: theme === "dark" ? "#1a1a1a" : "#fff",
+    color: theme === "dark" ? "#fff" : "#000",
+  };
   useEffect(() => {
     const { totalRemain } = calculateSumsAndWeightedAverage(calculatorData);
     setTotalRemain(new Decimal(totalRemain));
   }, [calculatorData]);
 
   const handlePercentageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const percentageValue = parseFloat(e.target.value);
+    let percentageValue = parseFloat(e.target.value);
+
+    if (e.target.value.startsWith("0") && e.target.value.length > 1) {
+      percentageValue = parseFloat(e.target.value.replace(/^0+/, ""));
+    }
+
     setPercentage(percentageValue);
 
     if (percentageValue > 0 && percentageValue <= 100) {
@@ -44,20 +56,38 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
   };
 
   return (
-    <div>
-      <label htmlFor="percentage">Enter Percentage (%): </label>
+    <div className="price-calculator" style={themeStyles}>
+      <label htmlFor="percentage">درصد را وارد کنید (%): </label>
       <input
+        style={themeStyles}
         type="number"
         id="percentage"
         value={percentage}
         onChange={handlePercentageChange}
       />
 
-      <div>
-        <h3>For {percentage}%:</h3>
-        <p>Remain: {totalRemain.times(percentage / 100).toString()}</p>
-        <p>Weighted Price: {weightedPrice.toString()}</p>
-        <p>Amount to Pay: {amountToPay.toString()}</p>
+      <div className="result" style={themeStyles}>
+        <h3>برای {percentage && percentage > 0 ? percentage : ""}%:</h3>
+        <div className="result-item">
+          <span className="result-title">باقیمانده:</span>
+          <span className="result-value">
+            {percentage && percentage > 0
+              ? displayNumber(totalRemain.times(percentage / 100).toString())
+              : 0}
+          </span>
+        </div>
+        <div className="result-item">
+          <span className="result-title">قیمت وزنی:</span>
+          <span className="result-value">
+            {displayNumber(weightedPrice.toString())}
+          </span>
+        </div>
+        <div className="result-item">
+          <span className="result-title">مبلغ پرداختی:</span>
+          <span className="result-value">
+            {displayNumber(amountToPay.toString())}
+          </span>
+        </div>
       </div>
     </div>
   );
