@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "iranYekanT";
+  src: url("../assets/fonts/IRANYekanX-Thin.ttf");
+}
+
+@font-face {
+  font-family: "iranYekanL";
+  src: url("../assets/fonts/IRANYekanX-Light.ttf");
+}
+
+@font-face {
+  font-family: "iranYekanR";
+  src: url("../assets/fonts/IRANYekanX-Regular.ttf");
+}
+@font-face {
+  font-family: "iranYekanM";
+  src: url("../assets/fonts/IRANYekanX-Medium.ttf");
+}
+@font-face {
+  font-family: "iranYekanB";
+  src: url("../assets/fonts/IRANYekanX-Bold.ttf");
+}
+
+@import "./colors";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: iranYekanR;
+  background-color: $primary01;
+  color: $primary07;
+  padding: 0;
+  overflow-x: hidden;
+}

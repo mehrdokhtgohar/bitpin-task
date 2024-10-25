@@ -13,6 +13,7 @@ export default defineConfig({
       "@utils": path.resolve(__dirname, "src/utils"),
       "@api": path.resolve(__dirname, "src/api"),
       "@theme": path.resolve(__dirname, "src/theme"),
+      "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
 });
