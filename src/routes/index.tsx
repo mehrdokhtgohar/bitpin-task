@@ -5,9 +5,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
-import MarketDetail from "@pages/MarketDetail";
+import MarketDetailsPage from "@pages/MarketDetailsPage";
+import "./AppRoutes.scss";
 
-const MarketList = lazy(() => import("@pages/MarketList"));
+const MarketList = lazy(() => import("@pages/MarketListPage"));
 
 const AppRoutes = () => {
   return (
@@ -16,7 +17,7 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/" element={<MarketList />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/market/:marketId" element={<MarketDetail />} />
+          <Route path="/market/:marketId" element={<MarketDetailsPage />} />
         </Routes>
       </Suspense>
     </Router>

@@ -1,6 +1,7 @@
 import React from "react";
 import { TabTypes } from "@api/types/markets.types";
 import { Tabs as MuiTabs, Tab } from "@mui/material";
+import { useTheme } from "@theme/ThemeContext";
 
 interface TabsProps {
   activeTab: TabTypes;
@@ -11,6 +12,7 @@ const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
   const handleChange = (event: React.SyntheticEvent, newValue: TabTypes) => {
     onTabChange(newValue);
   };
+  const { theme } = useTheme();
 
   return (
     <MuiTabs
@@ -19,6 +21,7 @@ const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
       onChange={handleChange}
       centered
       sx={{
+        backgroundColor: theme === "dark" ? "4EF09D" : "#fff",
         "& .MuiTabs-indicator": {
           backgroundColor: "#4EF09D",
         },
