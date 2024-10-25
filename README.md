@@ -1,50 +1,79 @@
-# React + TypeScript + Vite
+# Bitpin Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is A two-page React application based on the provided task, built with `Vite`, `TypeScript`, and `Sass` for styling. It provides an overview of various cryptocurrencies in two different base currencies, with detailed buy, sell, and trade information for each market. swipable Tabs design implemented by `material ui`. It includes light and dark mode themes, data refreshes every 3 seconds on the Market Detail page, and a responsive interface.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Crypto List Page
+   Displays a list of cryptocurrencies with two base currencies.
+2. Market Detail Page
+   Consists of three main tabs: Buy, Sell, and Trade.
 
-## Expanding the ESLint configuration
+Each tab displays specific information:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Buy and Sell Tabs:
+  Shows the total price being bought or sold.
+  Displays an average weighted price for transactions.
+  Users can enter a percentage to view:
+  Total amount to pay.
+  Average price.
+  Sum of remaining items. 3. Swipable Tabs
+  Tabs can be swiped for easier navigation using react-swipeable. 4. Light and Dark Mode
+  Supports both light and dark modes for a better user experience in various lighting conditions.
 
-- Configure the top-level `parserOptions` property like this:
+- Trade Tab:
+  Presents comprehensive market details.
+  Data automatically refreshes every 3 seconds for real-time updates on market data.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Tech Stack
+React: Core UI framework.
+Vite: Fast, optimized build tool.
+TypeScript: Adds type safety to the codebase.
+Sass: Styling solution for modular and maintainable CSS.
+React Query: API data fetching, caching, and periodic refreshing.
+React Swipeable: Enables swipe functionality for the tabs.
+
+## Installation
+
+1. Clone the repository:
+
+```javascript
+git clone https://github.com/mehrdokhtgohar/bitpin-task.git
+cd bitpin-task
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```javascript
+yarn install
 ```
+
+3. Start the development server:
+
+```javascript
+yarn run dev
+```
+
+## Project Structure
+
+```plaintext
+bitpin-task/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   ├── utils/
+│   ├── api/
+│   │   ├── hooks/
+│   │   └── types/
+│   └── main.tsx
+├── index.html
+├── package.json
+└── vite.config.ts
+
+```
+
+## Usage
+
+Once the server is running, navigate to http://localhost:5173 to view the application. You can switch between light and dark mode via the theme toggle, swipe between tabs for each market's details, and observe real-time updates every 3 seconds in the Market Detail page.
