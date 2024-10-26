@@ -35,7 +35,7 @@ export const useMarketDetail = (
       const response = await apiClient.get<MarketItemTypes[]>(url);
       return response.data;
     },
-    // refetchInterval: 3000,
+    refetchInterval: 3000,
     enabled,
     refetchOnWindowFocus: false,
   });
