@@ -1,0 +1,9 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  span {
+    margin-right: 8px;
+  }
+}

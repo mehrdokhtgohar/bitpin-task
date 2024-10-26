@@ -1,0 +1,41 @@
+@import "../colors";
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+  position: relative;
+  border-bottom: 1px solid $primary04;
+  color: $accent;
+  font-family: iranYekanL;
+  button {
+    padding: 8px 16px;
+    background-color: transparent;
+    color: $primary07;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+
+    &:disabled {
+      color: $accent;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      color: lighten($primary07, 10%);
+    }
+  }
+
+  .active-tab {
+    color: $accent;
+  }
+
+  .underline {
+    position: absolute;
+    bottom: -1px;
+    height: 2px;
+    background-color: $accent;
+    transition: transform 0.3s ease, width 0.3s ease;
+  }
+}

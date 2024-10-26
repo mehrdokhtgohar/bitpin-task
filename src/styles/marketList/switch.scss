@@ -1,0 +1,30 @@
+@import "../colors";
+
+.switch {
+  width: 50px;
+  height: 25px;
+  background-color: $primary04;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &.on {
+    background-color: $accent;
+  }
+
+  .switch-toggle {
+    width: 23px;
+    height: 23px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s;
+
+    &.on {
+      transform: translateX(25px);
+    }
+  }
+}

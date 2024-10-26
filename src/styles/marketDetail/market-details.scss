@@ -1,0 +1,83 @@
+@import "../colors";
+
+.market-detail {
+  padding: 16px;
+  background-color: $primary02;
+  color: $primary07;
+
+  h1 {
+    font-family: iranYekanL;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .tabs {
+    margin-bottom: 16px;
+  }
+  .loading {
+    color: red;
+  }
+  .data-section {
+    margin-top: 80px;
+    h2 {
+      font-family: iranYekanL;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-family: iranYekanL;
+      font-size: 1rem;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      span {
+        direction: rtl;
+        color: $primary05;
+        font-size: 0.8rem;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        background-color: $primary02;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.6rem;
+        border: 1px solid $primary03;
+
+        pre {
+          font-family: iranYekanL;
+          font-size: 0.875rem;
+          color: $primary07;
+        }
+      }
+    }
+
+    .summary {
+      margin-top: 16px;
+      padding: 16px;
+      background-color: $primary03;
+      border-radius: 4px;
+      border-color: $primary05;
+      border-width: 1px;
+
+      h3 {
+        font-family: iranYekanL;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-family: iranYekanL;
+        font-size: 1rem;
+        margin: 4px 0;
+      }
+    }
+  }
+}
