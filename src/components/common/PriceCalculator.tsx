@@ -8,6 +8,7 @@ import "@styles/marketDetail/price-calculator.scss";
 import { THEMES, useTheme } from "@theme/ThemeContext";
 import { displayNumber } from "@utils/displayPrice";
 import { darkTheme, lightTheme } from "@theme/theme";
+import { useTranslation } from "react-i18next";
 
 interface CalculatorData {
   price: string;
@@ -26,6 +27,7 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
   const [weightedPrice, setWeightedPrice] = useState<Decimal>(new Decimal(0));
   const [amountToPay, setAmountToPay] = useState<Decimal>(new Decimal(0));
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const { totalRemain } = calculateSumsAndWeightedAverage(calculatorData);
@@ -58,7 +60,9 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
       className="price-calculator"
       style={theme === THEMES.DARK ? darkTheme : lightTheme}
     >
-      <label htmlFor="percentage">درصد را وارد کنید (%): </label>
+      <label htmlFor="percentage">
+        {t("PRICE_CALCULATOR.INPUT_LABEL")}(%):{" "}
+      </label>
       <input
         style={theme === THEMES.DARK ? darkTheme : lightTheme}
         type="number"
@@ -71,9 +75,14 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
         className="result"
         style={theme === THEMES.DARK ? darkTheme : lightTheme}
       >
-        <h3>برای {percentage && percentage > 0 ? percentage : ""}%:</h3>
+        <h3>
+          {t("PRICE_CALCULATOR.FOR")}{" "}
+          {percentage && percentage > 0 ? percentage : ""}%:
+        </h3>
         <div className="result-item">
-          <span className="result-title">باقیمانده:</span>
+          <span className="result-title">
+            {t("PRICE_CALCULATOR.REMAINING")}:
+          </span>
           <span className="result-value">
             {percentage && percentage > 0
               ? displayNumber(totalRemain.times(percentage / 100).toString())
@@ -81,13 +90,15 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
           </span>
         </div>
         <div className="result-item">
-          <span className="result-title">قیمت وزنی:</span>
+          <span className="result-title">
+            {t("PRICE_CALCULATOR.WEIGHTED_PRICE")}:
+          </span>
           <span className="result-value">
             {displayNumber(weightedPrice.toString())}
           </span>
         </div>
         <div className="result-item">
-          <span className="result-title">مبلغ پرداختی:</span>
+          <span className="result-title">{t("PRICE_CALCULATOR.PRICE")}:</span>
           <span className="result-value">
             {displayNumber(amountToPay.toString())}
           </span>

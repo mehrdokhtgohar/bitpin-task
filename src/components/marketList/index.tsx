@@ -10,6 +10,7 @@ import { displayNumber } from "@utils/displayPrice";
 import ThemeToggle from "@components/common/ThemeToggle";
 import Tabs from "@components/marketList/Tabs";
 import { darkTheme, lightTheme } from "@theme/theme";
+import { useTranslation } from "react-i18next";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -19,6 +20,7 @@ const MarketList = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const { t } = useTranslation();
 
   const { data, isLoading, isError } = useMarkets(true);
 
@@ -75,8 +77,8 @@ const MarketList = () => {
       style={theme === THEMES.DARK ? darkTheme : lightTheme}
       className="market-list"
     >
-      {isLoading && <p>در حال بارگزاری اطلاعات</p>}
-      {isError && <p>خطایی رخ داده است.</p>}
+      {isLoading && <p>{t("MARKET_LIST.LOADING")}</p>}
+      {isError && <p>{t("MARKET_DETAIL.ERROR")}</p>}
 
       <div className="fixed-header">
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />

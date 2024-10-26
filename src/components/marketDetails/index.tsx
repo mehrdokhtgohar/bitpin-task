@@ -11,12 +11,15 @@ import "@styles/marketDetail/market-details.scss";
 import { displayNumber } from "@utils/displayPrice";
 import { THEMES, useTheme } from "@theme/ThemeContext";
 import { darkTheme, lightTheme } from "@theme/theme";
+import { useTranslation } from "react-i18next";
 
 const ITEMS_LIMIT = 10;
 
 const MarketDetail = () => {
   const { marketId } = useParams<{ marketId: string }>() || {};
   const [activeTab, setActiveTab] = useState(TabTypes.SELL);
+  const { t } = useTranslation();
+
   const { data, isLoading, isError } = useMarketDetail(
     true,
     marketId || "",
@@ -81,9 +84,9 @@ const MarketDetail = () => {
       <MarketTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div className="data-section">
-        {isLoading && <p>در حال بارگزاری اطلاعات</p>}
+        {isLoading && <p>{t("MARKET_DETAIL.LOADING")}</p>}
 
-        {isError && <p>خطایی رخ داده است.</p>}
+        {isError && <p>{t("MARKET_DETAIL.LOADING")}</p>}
 
         {!isLoading && data && displayedData?.length > 0 ? (
           <>
@@ -91,17 +94,20 @@ const MarketDetail = () => {
               {displayedData.map((item: MarketItemTypes, index: number) => (
                 <li key={index} style={themeStyles}>
                   <p>
-                    <span>مقدار:</span>
+                    <span>{t("MARKET_DETAIL.AMOUNT")}:</span>
                     {displayNumber(item.amount)}
                   </p>
                   <p>
-                    <span>باقی‌مانده:</span> {displayNumber(item.remain)}
+                    <span>{t("MARKET_DETAIL.REMAINING")}:</span>
+                    {displayNumber(item.remain)}
                   </p>
                   <p>
-                    <span>قیمت:</span> {displayNumber(item.price)}
+                    <span>{t("MARKET_DETAIL.PRICE")}:</span>
+                    {displayNumber(item.price)}
                   </p>
                   <p>
-                    <span>ارزش:</span> {displayNumber(item.value)}
+                    <span>{t("MARKET_DETAIL.VALUE")}:</span>
+                    {displayNumber(item.value)}
                   </p>
                 </li>
               ))}
@@ -111,13 +117,15 @@ const MarketDetail = () => {
               <>
                 <div className="summary" style={themeStyles}>
                   <p>
-                    <span>باقی‌مانده کل:</span> {displayNumber(totalRemain)}
+                    <span> {t("MARKET_DETAIL.TOTAL_REMAINING")}:</span>
+                    {displayNumber(totalRemain)}
                   </p>
                   <p>
-                    <span>ارزش کل:</span> {displayNumber(totalValue)}
+                    <span> {t("MARKET_DETAIL.TOTAL_VALUE")}:</span>
+                    {displayNumber(totalValue)}
                   </p>
                   <p>
-                    <span>میانگین قیمت وزنی:</span>{" "}
+                    <span>{t("MARKET_DETAIL.WEIGHTED_AVERAGE_PRICE")}:</span>
                     {displayNumber(weightedAveragePrice)}
                   </p>
                 </div>
@@ -128,7 +136,7 @@ const MarketDetail = () => {
             )}
           </>
         ) : (
-          !isLoading && <p>اطلاعات درخواست شده یافت نشد.</p>
+          !isLoading && <p>{t("MARKET_DETAIL.NOT_FOUND")}</p>
         )}
       </div>
     </div>

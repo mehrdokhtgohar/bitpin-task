@@ -14,6 +14,7 @@ export default defineConfig({
       "@api": path.resolve(__dirname, "src/api"),
       "@theme": path.resolve(__dirname, "src/theme"),
       "@styles": path.resolve(__dirname, "src/styles"),
+      "@translations": path.resolve(__dirname, "src/translation"),
     },
   },
 });

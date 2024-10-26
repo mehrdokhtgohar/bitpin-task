@@ -1,0 +1,25 @@
+{
+  "MARKET_DETAIL": {
+    "LOADING": "در حال بارگزاری اطلاعات",
+    "ERROR": "خطایی رخ داده است.",
+    "NOT_DOUND": "اطلاعات درخواست شده یافت نشد.",
+    "REMAINING": "باقی‌مانده",
+    "TOTAL_REMAINING": "باقی‌مانده کل",
+    "TOTAL_VALUE": "ارزش کل",
+    "WEIGHTED_AVERAGE_PRICE": "میانگین قیمت وزنی",
+    "VALUE": "مقدار",
+    "PRICE": "قیمت",
+    "AMOUNT": "مقدار"
+  },
+  "MARKET_LIST": {
+    "LOADING": "در حال بارگزاری اطلاعات",
+    "ERROR": "خطایی رخ داده است."
+  },
+  "PRICE_CALCULATOR": {
+    "INPUT_LABEL": "درصد را وارد کنید",
+    "REMAINING": "باقی‌مانده",
+    "WEIGHTED_PRICE": "قیمت وزنی",
+    "PRICE": "مبلغ",
+    "FOR": "برای"
+  }
+}
