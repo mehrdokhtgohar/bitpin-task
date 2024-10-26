@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "@components/Header";
+import Header from "@components/common/Header";
 
 import "@styles/marketDetail/market-details-page.scss";
 
-import MarketDetail from "@components/marketDetails/MarketDetail";
+import MarketDetail from "@components/marketDetails";
 const MarketDetailsPage = () => {
   return (
     <div className="market-detail-page">

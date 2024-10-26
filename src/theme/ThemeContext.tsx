@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const themes = {
-  light: "light",
-  dark: "dark",
+export const THEMES = {
+  LIGHT: "light",
+  DARK: "dark",
 };
 
 const ThemeContext = createContext({
-  theme: themes.light,
+  theme: THEMES.LIGHT,
   toggleTheme: () => {},
 });
 
@@ -17,7 +17,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     const isDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-    return isDarkMode ? themes.dark : themes.light;
+    return isDarkMode ? THEMES.DARK : THEMES.LIGHT;
   };
 
   const [theme, setTheme] = useState(getSystemDefaultTheme);
@@ -25,7 +25,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleThemeChange = (event: MediaQueryListEvent) => {
-      setTheme(event.matches ? themes.dark : themes.light);
+      setTheme(event.matches ? THEMES.DARK : THEMES.LIGHT);
     };
 
     mediaQuery.addEventListener("change", handleThemeChange);
@@ -37,7 +37,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const toggleTheme = () => {
     setTheme((prevTheme) =>
-      prevTheme === themes.light ? themes.dark : themes.light
+      prevTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT
     );
   };
 

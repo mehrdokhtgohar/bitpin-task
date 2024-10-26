@@ -14,7 +14,9 @@
   .tabs {
     margin-bottom: 16px;
   }
-
+  .loading {
+    color: red;
+  }
   .data-section {
     margin-top: 80px;
     h2 {
@@ -62,7 +64,8 @@
       padding: 16px;
       background-color: $primary03;
       border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-color: $primary05;
+      border-width: 1px;
 
       h3 {
         font-family: iranYekanL;

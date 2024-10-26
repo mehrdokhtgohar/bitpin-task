@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 
-const MarketList = lazy(() => import("@components/MarketList"));
-import Header from "@components/Header";
+const MarketList = lazy(() => import("@components/marketList/index"));
+import Header from "@components/common/Header";
 
 const MarketListPage = () => {
   return (

@@ -1,6 +1,6 @@
 import { useMarketDetail } from "@api/hooks/marketDetail";
 import { MarketItemTypes, TabTypes } from "@api/types/marketDetail.types";
-import PriceCalculator from "@components/PriceCalculator";
+import PriceCalculator from "@components/common/PriceCalculator";
 import { calculateSumsAndWeightedAverage } from "@utils/calculations";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,7 +9,8 @@ import MarketTabs from "./MarketTabs";
 
 import "@styles/marketDetail/market-details.scss";
 import { displayNumber } from "@utils/displayPrice";
-import { useTheme } from "@theme/ThemeContext";
+import { THEMES, useTheme } from "@theme/ThemeContext";
+import { darkTheme, lightTheme } from "@theme/theme";
 
 const ITEMS_LIMIT = 10;
 
@@ -70,8 +71,12 @@ const MarketDetail = () => {
   });
 
   return (
-    <div {...swipeHandlers} className="market-detail" style={themeStyles}>
-      <h1>Market Detail for {marketId}</h1>
+    <div
+      {...swipeHandlers}
+      className="market-detail"
+      style={theme === THEMES.DARK ? darkTheme : lightTheme}
+    >
+      <h1>{marketId}</h1>
 
       <MarketTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
@@ -84,10 +89,7 @@ const MarketDetail = () => {
           <>
             <ul>
               {displayedData.map((item: MarketItemTypes, index: number) => (
-                <li
-                  key={index}
-                  style={{ background: theme === "dark" ? "#222222" : "#fff" }}
-                >
+                <li key={index} style={themeStyles}>
                   <p>
                     <span>مقدار:</span>
                     {displayNumber(item.amount)}

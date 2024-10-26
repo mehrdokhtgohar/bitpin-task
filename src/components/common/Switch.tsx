@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/marketList/switch.scss";
+import "@styles/marketList/switch.scss";
 
 interface SwitchProps {
   isOn: boolean;

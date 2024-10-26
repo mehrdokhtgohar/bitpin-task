@@ -4,29 +4,39 @@ import "@styles/marketList/header.scss";
 
 import searchIcon from "@assets/icons/search.svg";
 import chartIcon from "@assets/icons/chart.svg";
-import { useTheme } from "@theme/ThemeContext";
+import { THEMES, useTheme } from "@theme/ThemeContext";
+import { darkTheme, lightTheme } from "@theme/theme";
 
 const Header = () => {
   const { theme } = useTheme();
-  const themeStyles = {
-    backgroundColor: theme === "dark" ? "#1a1a1a" : "#fff",
-    color: theme === "dark" ? "#fff" : "#000",
-  };
+
   return (
-    <div className="header" style={themeStyles}>
+    <div
+      className="header"
+      style={theme === THEMES.DARK ? darkTheme : lightTheme}
+    >
       <div className="header-wrapper">
         <div
           className="input-container"
-          style={{ backgroundColor: theme === "dark" ? "#222222" : "#fff" }}
+          style={{
+            backgroundColor: theme === THEMES.DARK ? "#222222" : "#fff",
+          }}
         >
           <img src={searchIcon} />
           <input
             type="text"
             placeholder="نام ارز دیجیتال را جستجو کنید"
-            style={{ backgroundColor: theme === "dark" ? "#222222" : "#fff" }}
+            style={{
+              backgroundColor: theme === THEMES.DARK ? "#222222" : "#fff",
+            }}
           />
         </div>
-        <div className="diagrams-btn" style={themeStyles}>
+        <div
+          className="diagrams-btn"
+          style={{
+            backgroundColor: theme === THEMES.DARK ? "#222222" : "#fff",
+          }}
+        >
           <img src={chartIcon} />
           <p>کاوشگر</p>
         </div>

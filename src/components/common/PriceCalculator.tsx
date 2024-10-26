@@ -5,8 +5,9 @@ import {
   calculateWeightedPriceAndTotal,
 } from "@utils/calculations";
 import "@styles/marketDetail/price-calculator.scss";
-import { useTheme } from "@theme/ThemeContext";
+import { THEMES, useTheme } from "@theme/ThemeContext";
 import { displayNumber } from "@utils/displayPrice";
+import { darkTheme, lightTheme } from "@theme/theme";
 
 interface CalculatorData {
   price: string;
@@ -25,10 +26,7 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
   const [weightedPrice, setWeightedPrice] = useState<Decimal>(new Decimal(0));
   const [amountToPay, setAmountToPay] = useState<Decimal>(new Decimal(0));
   const { theme } = useTheme();
-  const themeStyles = {
-    backgroundColor: theme === "dark" ? "#1a1a1a" : "#fff",
-    color: theme === "dark" ? "#fff" : "#000",
-  };
+
   useEffect(() => {
     const { totalRemain } = calculateSumsAndWeightedAverage(calculatorData);
     setTotalRemain(new Decimal(totalRemain));
@@ -56,17 +54,23 @@ const PriceCalculator = ({ calculatorData }: PriceCalculatorProps) => {
   };
 
   return (
-    <div className="price-calculator" style={themeStyles}>
+    <div
+      className="price-calculator"
+      style={theme === THEMES.DARK ? darkTheme : lightTheme}
+    >
       <label htmlFor="percentage">درصد را وارد کنید (%): </label>
       <input
-        style={themeStyles}
+        style={theme === THEMES.DARK ? darkTheme : lightTheme}
         type="number"
         id="percentage"
         value={percentage}
         onChange={handlePercentageChange}
       />
 
-      <div className="result" style={themeStyles}>
+      <div
+        className="result"
+        style={theme === THEMES.DARK ? darkTheme : lightTheme}
+      >
         <h3>برای {percentage && percentage > 0 ? percentage : ""}%:</h3>
         <div className="result-item">
           <span className="result-title">باقیمانده:</span>
